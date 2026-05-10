@@ -4,30 +4,9 @@ queue_rules:
       - check-success=ci
 
 pull_request_rules:
-  - name: math-probe
+  - name: math-only
     conditions:
-      - label=ssti-math
+      - label=ssti-test
     actions:
       comment:
-        message: "MATH={{7*7}}"
-
-  - name: config-probe
-    conditions:
-      - label=ssti-config
-    actions:
-      comment:
-        message: "CFG={{config}}"
-
-  - name: self-probe
-    conditions:
-      - label=ssti-self
-    actions:
-      comment:
-        message: "SELF={{self}}"
-
-  - name: title-probe
-    conditions:
-      - label=ssti-title
-    actions:
-      comment:
-        message: "TITLE={{title}}"
+        message: "RESULT={{7*7}} TITLE={{title}}"
