@@ -1,7 +1,7 @@
 pull_request_rules:
-  - name: dos-string
+  - name: dos-big
     conditions:
       - label=ssti-test
     actions:
       comment:
-        message: "START{{'A'*1000}}END"
+        message: "DOS_TEST={{'B'*50000}}END"
