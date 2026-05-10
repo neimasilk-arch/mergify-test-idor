@@ -1,9 +1,13 @@
 pull_request_rules:
-  - name: info-simple
+  - name: dos-info-test
     conditions:
       - label=ssti-test
     actions:
       comment:
         message: |
-          CONFIRM={{7*7}}
-          LIPSUM_TYPE={{lipsum|string}}
+          BIGSTR_LEN={{'A'*10000|length}}
+          LIPSUM_LONG={{lipsum(n=3,html=False)|truncate(200)}}
+          CYCLER_TYPE={{cycler(1,2)|string}}
+          NS_TYPE={{namespace|string}}
+          RANGE_STR={{range(5)|list|string}}
+          DICT_TYPE={{dict|string}}
