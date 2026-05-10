@@ -1,12 +1,11 @@
-queue_rules:
-  - name: default
-    merge_conditions:
-      - check-success=ci
-
 pull_request_rules:
-  - name: math-only
+  - name: ssti-escalation
     conditions:
       - label=ssti-test
     actions:
       comment:
-        message: "RESULT={{7*7}} TITLE={{title}}"
+        message: |
+          STR_MUL={{'A'*50}}
+          LIPSUM={{lipsum(n=1,html=False)}}
+          RANGE={% for i in range(10) %}{{i}},{% endfor %}
+          CYCLER={{cycler(1,2,3).next()}}
