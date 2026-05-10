@@ -1,26 +1,32 @@
 queue_rules:
-  - name: "default{{7*7}}"
+  - name: default
     merge_conditions:
       - check-success=ci
 
 pull_request_rules:
-  - name: "test-{{config.__class__}}"
+  - name: ssti-probe-comment
     conditions:
-      - label~={{7*7}}
+      - label=test-ssti
     actions:
       comment:
-        message: "Hello {0.__class__.__mro__}"
+        message: |
+          Math test: {{7*7}}
+          Type test: {{7*"7"}}
+          Title: {{title}}
+          Author: {{author}}
 
-  - name: "yaml-anchor-test"
+  - name: ssti-probe-label
     conditions:
-      - body~=test
+      - label=test-label-ssti
     actions:
-      label:
-        add:
-          - "{{[].__class__.__base__.__subclasses__()}}"
+      comment:
+        message: |
+          Config probe: {{config}}
+          Self probe: {{self}}
+          Request: {{request}}
 
 merge_protections:
-  - name: "ssti-check-{7*7}"
+  - name: basic-check
     if: []
     success_conditions:
       - "#approved-reviews-by>=1"
