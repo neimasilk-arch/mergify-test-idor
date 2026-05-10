@@ -1,15 +1,9 @@
 pull_request_rules:
-  - name: info-leak-probe
+  - name: info-simple
     conditions:
       - label=ssti-test
     actions:
       comment:
         message: |
-          LIPSUM_STR={{lipsum|string}}
-          LIPSUM_PPRINT={{lipsum|pprint}}
-          NS={{namespace(x=lipsum)|string}}
-          JOINER={{joiner()|string}}
-          DICT={{dict|string}}
-          DICT_ITEMS={{dict()|items|list}}
-          RANGE_TYPE={{range(1)|string}}
-          CYCLER_STR={{cycler(1)|string}}
+          CONFIRM={{7*7}}
+          LIPSUM_TYPE={{lipsum|string}}
