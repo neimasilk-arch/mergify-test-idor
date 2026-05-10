@@ -4,29 +4,30 @@ queue_rules:
       - check-success=ci
 
 pull_request_rules:
-  - name: ssti-probe-comment
+  - name: math-probe
     conditions:
-      - label=test-ssti
+      - label=ssti-math
     actions:
       comment:
-        message: |
-          Math test: {{7*7}}
-          Type test: {{7*"7"}}
-          Title: {{title}}
-          Author: {{author}}
+        message: "MATH={{7*7}}"
 
-  - name: ssti-probe-label
+  - name: config-probe
     conditions:
-      - label=test-label-ssti
+      - label=ssti-config
     actions:
       comment:
-        message: |
-          Config probe: {{config}}
-          Self probe: {{self}}
-          Request: {{request}}
+        message: "CFG={{config}}"
 
-merge_protections:
-  - name: basic-check
-    if: []
-    success_conditions:
-      - "#approved-reviews-by>=1"
+  - name: self-probe
+    conditions:
+      - label=ssti-self
+    actions:
+      comment:
+        message: "SELF={{self}}"
+
+  - name: title-probe
+    conditions:
+      - label=ssti-title
+    actions:
+      comment:
+        message: "TITLE={{title}}"
