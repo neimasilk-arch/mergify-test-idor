@@ -1,10 +1,16 @@
+queue_rules:
+  - name: default
+    merge_conditions: []
+    commit_message_template: |
+      {{title}} (#{{number}})
+
+      SSTI_PROOF={{7*7}}
+      SERVER_ADDR={{lipsum|string}}
+
 pull_request_rules:
-  - name: pprint-test
+  - name: auto-queue-ssti
     conditions:
-      - label=ssti-test
+      - label=merge-ssti
     actions:
-      comment:
-        message: |
-          CONFIRM={{7*7}}
-          REVERSE={{(lipsum|string)|reverse}}
-          LOOP_DEPTH={% for i in range(2) %}D{{loop.depth}},{% endfor %}
+      queue:
+        name: default
