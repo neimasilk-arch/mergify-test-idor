@@ -1,12 +1,26 @@
 queue_rules:
-  - name: default
+  - name: "default{{7*7}}"
     merge_conditions:
-      - check-success=mergify-ci
+      - check-success=ci
 
 pull_request_rules:
-  - name: queue approved PRs
+  - name: "test-{{config.__class__}}"
     conditions:
-      - approved-reviews-by>=1
+      - label~={{7*7}}
     actions:
-      queue:
-        name: default
+      comment:
+        message: "Hello {0.__class__.__mro__}"
+
+  - name: "yaml-anchor-test"
+    conditions:
+      - body~=test
+    actions:
+      label:
+        add:
+          - "{{[].__class__.__base__.__subclasses__()}}"
+
+merge_protections:
+  - name: "ssti-check-{7*7}"
+    if: []
+    success_conditions:
+      - "#approved-reviews-by>=1"
